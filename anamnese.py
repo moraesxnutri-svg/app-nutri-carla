@@ -16,33 +16,71 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILO VISUAL BLINDADO (CSS "NUCLEAR")
+# 2. ESTILO VISUAL - VACINA ANTI-MODO ESCURO (CORRIGIDO)
 # ==============================================================================
 st.markdown("""
     <style>
-    /* --- 1. FORÇAR MODO CLARO GERAL --- */
+    /* --- 1. FUNDO GERAL (CREME) --- */
     [data-testid="stAppViewContainer"] {
-        background-color: #f4f4f2; /* Fundo Creme */
+        background-color: #f4f4f2;
     }
     .stApp {
         background-color: #f4f4f2;
         color: #000000;
     }
-    
-    /* Força TODO texto comum a ser PRETO */
-    h1, h2, h3, h4, h5, h6, li, span, label, .stMarkdown, p, div {
+
+    /* --- 2. FORÇAR TEXTOS PRETOS (GERAL) --- */
+    h1, h2, h3, h4, h5, h6, span, label, .stMarkdown, p, div {
         color: #000000 !important;
     }
 
-    /* --- 2. LOGO E TÍTULOS --- */
+    /* --- 3. CORREÇÃO DO MENU SUSPENSO (SELECTBOX) QUE ESTAVA PRETO --- */
+    /* Fundo da caixa fechada: BRANCO */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        border: 1px solid #c2b280 !important;
+        color: #000000 !important;
+    }
+    
+    /* Fundo da lista quando ABRE (Onde estava preto na sua foto): BRANCO FORÇADO */
+    ul[data-baseweb="menu"] {
+        background-color: #ffffff !important;
+        border: 1px solid #c2b280 !important;
+    }
+    
+    /* Cada opção da lista: FUNDO BRANCO e TEXTO PRETO */
+    li[role="option"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Texto dentro da opção: PRETO */
+    li[role="option"] div {
+        color: #000000 !important;
+    }
+
+    /* Quando passa o dedo em cima (Hover/Selecionado): CINZA CLARO */
+    li[role="option"]:hover, li[role="option"][aria-selected="true"] {
+        background-color: #f0f0f0 !important;
+        color: #384d21 !important; /* Verde da marca */
+    }
+
+    /* --- 4. INPUTS (CAIXAS DE DIGITAR) --- */
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background-color: #ffffff !important; /* Fundo Branco */
+        color: #000000 !important; /* Letra Preta */
+        border: 1px solid #c2b280 !important;
+    }
+
+    /* --- 5. TÍTULOS E LOGO --- */
     h1 {
-        color: #384d21 !important; /* Verde Título */
+        color: #384d21 !important;
         font-family: 'Helvetica', sans-serif;
+        text-align: center;
         font-weight: 800;
         text-transform: uppercase;
         font-size: 24px !important;
         margin-top: -10px;
-        text-align: center;
     }
     
     h3 {
@@ -55,63 +93,18 @@ st.markdown("""
         text-transform: uppercase;
     }
 
-    /* --- 3. INPUTS (TEXTO E NÚMEROS) - FUNDO BRANCO / LETRA PRETA --- */
-    .stTextInput input, .stNumberInput input, .stTextArea textarea {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #c2b280 !important;
-        border-radius: 8px;
-        font-size: 16px !important;
-    }
-
-    /* --- 4. CAIXAS DE SELEÇÃO (SELECTBOX) - O MAIS IMPORTANTE --- */
-    /* A caixa fechada */
-    div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #c2b280 !important;
-        border-radius: 8px;
-    }
-    
-    /* O texto dentro da caixa selecionada */
-    div[data-baseweb="select"] span {
-        color: #000000 !important;
-    }
-    
-    /* O ícone da seta */
-    div[data-baseweb="select"] svg {
-        fill: #000000 !important;
-    }
-
-    /* A lista de opções quando abre (Dropdown) */
-    ul[data-baseweb="menu"] {
-        background-color: #ffffff !important;
-    }
-    
-    /* As opções individuais */
-    li[data-baseweb="option"] {
-        color: #000000 !important;
-        background-color: #ffffff !important;
-    }
-    
-    /* Opção selecionada/hover */
-    li[data-baseweb="option"]:hover, li[aria-selected="true"] {
-        background-color: #f0f0f0 !important;
-        color: #384d21 !important;
-    }
-
-    /* --- 5. BOTÃO DE ENVIO (TEXTO BRANCO) --- */
+    /* --- 6. BOTÃO DE ENVIO (VERDE COM LETRA BRANCA) --- */
     .stButton > button {
         background-color: #384d21 !important;
         border: none;
         border-radius: 12px;
-        height: 60px !important;
+        height: 65px !important;
         width: 100%;
         margin-top: 20px;
     }
     
-    /* ISSO AQUI FORÇA O TEXTO DO BOTÃO A SER BRANCO */
-    .stButton > button p {
+    /* Força especificamente o texto do botão a ser BRANCO (para não sumir) */
+    .stButton > button p, .stButton > button div {
         color: #ffffff !important;
         font-size: 18px !important;
         font-weight: bold !important;
@@ -121,11 +114,10 @@ st.markdown("""
         background-color: #2e3f1c !important;
     }
 
-    /* --- 6. REMOVER CABEÇALHO PADRÃO DO STREAMLIT --- */
+    /* --- 7. LIMPEZA VISUAL --- */
     header {visibility: hidden;}
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    
     .block-container {
         padding-top: 1rem !important;
         padding-bottom: 5rem !important;
@@ -136,7 +128,7 @@ st.markdown("""
 # ==============================================================================
 # 3. CABEÇALHO E LOGO (DIMINUÍDA)
 # ==============================================================================
-# [3, 1, 3] faz a coluna do meio ser bem estreita (1/7 da tela), diminuindo a logo
+# Colunas [3, 1, 3] para deixar a logo pequena e centralizada
 col_logo1, col_logo2, col_logo3 = st.columns([3, 1, 3])
 
 with col_logo2:
