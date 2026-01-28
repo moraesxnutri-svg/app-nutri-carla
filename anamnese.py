@@ -16,11 +16,11 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILO VISUAL BLINDADO (CORRIGIDO PARA BOTÕES)
+# 2. ESTILO VISUAL BLINDADO (CORREÇÃO DO BOTÃO PRETO)
 # ==============================================================================
 st.markdown("""
     <style>
-    /* --- 1. FUNDO E CORES GERAIS (Força Modo Claro) --- */
+    /* --- 1. FUNDO E CORES GERAIS --- */
     [data-testid="stAppViewContainer"] {
         background-color: #f4f4f2; /* Creme Suave */
     }
@@ -29,12 +29,13 @@ st.markdown("""
         color: #1a1a1a;
     }
     
-    /* Força cor do texto para PRETO, EXCETO nos botões */
-    h1, h2, h3, h4, h5, h6, p, li, div, span, label, .stMarkdown {
+    /* --- 2. TEXTOS GERAIS (Força Preto) --- */
+    /* Aplica preto em tudo, MAS usa :not para excluir botões */
+    h1, h2, h3, h4, h5, h6, li, span, label, .stMarkdown, p {
         color: #1a1a1a !important;
     }
 
-    /* --- 2. TIPOGRAFIA OTIMIZADA --- */
+    /* --- 3. TIPOGRAFIA --- */
     h1 {
         color: #384d21 !important; /* Verde Olívia */
         text-align: center;
@@ -60,7 +61,7 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* --- 3. CAMPOS DE TEXTO (INPUTS) --- */
+    /* --- 4. INPUTS (Caixas de Texto) --- */
     .stTextInput>div>div>input, 
     .stNumberInput>div>div>input, 
     .stTextArea>div>div>textarea {
@@ -80,29 +81,31 @@ st.markdown("""
         font-size: 18px !important;
     }
 
-    /* --- 4. BOTÃO DE ENVIO DO FORMULÁRIO (FIX CORRIGIDO) --- */
-    /* Força a letra a ser BRANCA dentro do botão */
-    .stButton>button {
+    /* --- 5. BOTÃO DO FORMULÁRIO (CORREÇÃO CRÍTICA) --- */
+    /* Alvo específico: O botão e qualquer texto dentro dele */
+    .stButton > button {
         background-color: #384d21 !important; /* Verde Fundo */
-        color: #ffffff !important; /* Letra Branca */
-        border-radius: 12px;
         border: none;
+        border-radius: 12px;
         height: 70px !important;
-        font-size: 20px !important;
-        font-weight: bold;
         width: 100%;
         margin-top: 25px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    .stButton>button p {
-        color: #ffffff !important; /* Garante que o texto interno seja branco */
+    
+    /* FORÇA O TEXTO DENTRO DO BOTÃO A SER BRANCO */
+    .stButton > button * {
+        color: #ffffff !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
     }
-    .stButton>button:hover {
+
+    .stButton > button:hover {
         background-color: #2e3f1c !important;
         transform: scale(1.02);
     }
     
-    /* --- 5. AJUSTES FINAIS --- */
+    /* --- 6. AJUSTES FINAIS --- */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
