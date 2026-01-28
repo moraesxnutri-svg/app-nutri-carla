@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILO VISUAL BLINDADO (CORREÇÃO DO BOTÃO PRETO)
+# 2. ESTILO VISUAL BLINDADO (V8 + MOBILE FIX)
 # ==============================================================================
 st.markdown("""
     <style>
@@ -30,7 +30,6 @@ st.markdown("""
     }
     
     /* --- 2. TEXTOS GERAIS (Força Preto) --- */
-    /* Aplica preto em tudo, MAS usa :not para excluir botões */
     h1, h2, h3, h4, h5, h6, li, span, label, .stMarkdown, p {
         color: #1a1a1a !important;
     }
@@ -81,8 +80,7 @@ st.markdown("""
         font-size: 18px !important;
     }
 
-    /* --- 5. BOTÃO DO FORMULÁRIO (CORREÇÃO CRÍTICA) --- */
-    /* Alvo específico: O botão e qualquer texto dentro dele */
+    /* --- 5. BOTÃO DO FORMULÁRIO (BRANCO FORÇADO) --- */
     .stButton > button {
         background-color: #384d21 !important; /* Verde Fundo */
         border: none;
@@ -118,9 +116,12 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 3. CABEÇALHO E LOGO
+# 3. CABEÇALHO E LOGO (AJUSTADO PARA FICAR MENOR)
 # ==============================================================================
-col_logo1, col_logo2, col_logo3 = st.columns([1, 2, 1])
+# Mudamos a proporção das colunas para [3, 2, 3]. 
+# Isso aperta a coluna do meio, deixando a logo menor e centralizada.
+col_logo1, col_logo2, col_logo3 = st.columns([3, 2, 3])
+
 with col_logo2:
     if os.path.exists("logo_carla.png"):
         st.image("logo_carla.png", use_container_width=True)
@@ -277,7 +278,7 @@ with st.form("anamnese_form"):
             # Feedback Visual de Sucesso
             st.success("✅ Ficha gerada com sucesso! Clique no botão abaixo para enviar.")
             
-            # Botão de Redirecionamento (Visual Verde Zap com Letra Branca Forçada)
+            # Botão de Redirecionamento
             st.markdown(f"""
                 <a href="{link_whatsapp}" target="_blank" style="text-decoration:none;">
                     <div style="
