@@ -16,172 +16,183 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILO VISUAL BLINDADO (V8 + MOBILE FIX)
+# 2. ESTILO VISUAL BLINDADO (CSS "NUCLEAR")
 # ==============================================================================
 st.markdown("""
     <style>
-    /* --- 1. FUNDO E CORES GERAIS --- */
+    /* --- 1. FORÇAR MODO CLARO GERAL --- */
     [data-testid="stAppViewContainer"] {
-        background-color: #f4f4f2; /* Creme Suave */
+        background-color: #f4f4f2; /* Fundo Creme */
     }
     .stApp {
         background-color: #f4f4f2;
-        color: #1a1a1a;
+        color: #000000;
     }
     
-    /* --- 2. TEXTOS GERAIS (Força Preto) --- */
-    h1, h2, h3, h4, h5, h6, li, span, label, .stMarkdown, p {
-        color: #1a1a1a !important;
+    /* Força TODO texto comum a ser PRETO */
+    h1, h2, h3, h4, h5, h6, li, span, label, .stMarkdown, p, div {
+        color: #000000 !important;
     }
 
-    /* --- 3. TIPOGRAFIA --- */
+    /* --- 2. LOGO E TÍTULOS --- */
     h1 {
-        color: #384d21 !important; /* Verde Olívia */
-        text-align: center;
+        color: #384d21 !important; /* Verde Título */
         font-family: 'Helvetica', sans-serif;
         font-weight: 800;
         text-transform: uppercase;
-        font-size: 26px !important;
+        font-size: 24px !important;
         margin-top: -10px;
+        text-align: center;
     }
     
     h3 {
         color: #384d21 !important;
-        border-bottom: 2px solid #c2b280; /* Dourado */
-        padding-bottom: 8px;
-        margin-top: 35px;
-        font-size: 20px !important;
+        border-bottom: 2px solid #c2b280;
+        padding-bottom: 5px;
+        margin-top: 30px;
+        font-size: 18px !important;
         font-weight: bold;
         text-transform: uppercase;
     }
-    
-    label p {
-        font-size: 18px !important;
-        font-weight: 600 !important;
-    }
 
-    /* --- 4. INPUTS (Caixas de Texto) --- */
-    .stTextInput>div>div>input, 
-    .stNumberInput>div>div>input, 
-    .stTextArea>div>div>textarea {
+    /* --- 3. INPUTS (TEXTO E NÚMEROS) - FUNDO BRANCO / LETRA PRETA --- */
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
         background-color: #ffffff !important;
         color: #000000 !important;
         border: 1px solid #c2b280 !important;
         border-radius: 8px;
-        font-size: 18px !important;
-        padding: 15px !important;
+        font-size: 16px !important;
     }
-    
-    .stSelectbox>div>div>div {
+
+    /* --- 4. CAIXAS DE SELEÇÃO (SELECTBOX) - O MAIS IMPORTANTE --- */
+    /* A caixa fechada */
+    div[data-baseweb="select"] > div {
         background-color: #ffffff !important;
         color: #000000 !important;
         border: 1px solid #c2b280 !important;
         border-radius: 8px;
-        font-size: 18px !important;
+    }
+    
+    /* O texto dentro da caixa selecionada */
+    div[data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    /* O ícone da seta */
+    div[data-baseweb="select"] svg {
+        fill: #000000 !important;
     }
 
-    /* --- 5. BOTÃO DO FORMULÁRIO (BRANCO FORÇADO) --- */
+    /* A lista de opções quando abre (Dropdown) */
+    ul[data-baseweb="menu"] {
+        background-color: #ffffff !important;
+    }
+    
+    /* As opções individuais */
+    li[data-baseweb="option"] {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    /* Opção selecionada/hover */
+    li[data-baseweb="option"]:hover, li[aria-selected="true"] {
+        background-color: #f0f0f0 !important;
+        color: #384d21 !important;
+    }
+
+    /* --- 5. BOTÃO DE ENVIO (TEXTO BRANCO) --- */
     .stButton > button {
-        background-color: #384d21 !important; /* Verde Fundo */
+        background-color: #384d21 !important;
         border: none;
         border-radius: 12px;
-        height: 70px !important;
+        height: 60px !important;
         width: 100%;
-        margin-top: 25px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        margin-top: 20px;
     }
     
-    /* FORÇA O TEXTO DENTRO DO BOTÃO A SER BRANCO */
-    .stButton > button * {
+    /* ISSO AQUI FORÇA O TEXTO DO BOTÃO A SER BRANCO */
+    .stButton > button p {
         color: #ffffff !important;
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: bold !important;
     }
 
     .stButton > button:hover {
         background-color: #2e3f1c !important;
-        transform: scale(1.02);
     }
-    
-    /* --- 6. AJUSTES FINAIS --- */
+
+    /* --- 6. REMOVER CABEÇALHO PADRÃO DO STREAMLIT --- */
+    header {visibility: hidden;}
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
     
     .block-container {
-        padding-top: 2rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 5rem !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 3. CABEÇALHO E LOGO (AJUSTADO PARA FICAR MENOR)
+# 3. CABEÇALHO E LOGO (DIMINUÍDA)
 # ==============================================================================
-# Mudamos a proporção das colunas para [3, 2, 3]. 
-# Isso aperta a coluna do meio, deixando a logo menor e centralizada.
-col_logo1, col_logo2, col_logo3 = st.columns([3, 2, 3])
+# [3, 1, 3] faz a coluna do meio ser bem estreita (1/7 da tela), diminuindo a logo
+col_logo1, col_logo2, col_logo3 = st.columns([3, 1, 3])
 
 with col_logo2:
     if os.path.exists("logo_carla.png"):
         st.image("logo_carla.png", use_container_width=True)
 
 st.title("FICHA DE ANAMNESE")
-st.markdown(f"<center><small style='font-size: 16px; color: #555 !important;'>NUTRICIONISTA {NOME_NUTRI} | TRIAGEM INICIAL</small></center>", unsafe_allow_html=True)
+st.markdown(f"<center><small style='font-size: 14px; color: #555 !important;'>NUTRICIONISTA {NOME_NUTRI}</small></center>", unsafe_allow_html=True)
 
 # ==============================================================================
-# 4. FORMULÁRIO INTELIGENTE
+# 4. FORMULÁRIO
 # ==============================================================================
 with st.form("anamnese_form"):
     
-    # --- SEÇÃO 1: PESSOAL ---
-    st.markdown("### 1. QUEM É VOCÊ?")
+    st.markdown("### 1. DADOS PESSOAIS")
     col1, col2 = st.columns(2)
     with col1:
         nome = st.text_input("Nome Completo")
         idade = st.number_input("Idade", min_value=10, max_value=100, step=1)
-        sexo = st.selectbox("Sexo Biológico", ["Masculino", "Feminino"])
+        sexo = st.selectbox("Sexo", ["Masculino", "Feminino"])
     with col2:
-        peso = st.number_input("Peso Atual (kg)", format="%.1f")
+        peso = st.number_input("Peso (kg)", format="%.1f")
         altura = st.number_input("Altura (cm)", min_value=100, max_value=250, step=1)
-        objetivo = st.selectbox("Objetivo Principal", ["Emagrecimento", "Hipertrofia (Massa)", "Saúde/Reeducação", "Performance"])
+        objetivo = st.selectbox("Objetivo", ["Emagrecimento", "Hipertrofia", "Saúde", "Performance"])
 
-    # --- SEÇÃO 2: ROTINA ---
-    st.markdown("### 2. ROTINA E SONO")
-    profissao = st.text_input("Profissão (Trabalha sentado ou em pé?)")
-    
+    st.markdown("### 2. ROTINA")
+    profissao = st.text_input("Profissão")
     col_rot1, col_rot2 = st.columns(2)
     with col_rot1:
-        horario_acorda = st.text_input("Horário que acorda")
+        horario_acorda = st.text_input("Acorda às")
     with col_rot2:
-        horario_dorme = st.text_input("Horário que dorme")
+        horario_dorme = st.text_input("Dorme às")
         
-    qualidade_sono = st.selectbox("Como é seu sono?", ["Bom / Reparador", "Regular / Acordo cansado", "Ruim / Insônia"])
-    agua = st.slider("Consumo de água (Litros/dia)", 0.0, 5.0, 2.0, 0.5)
+    qualidade_sono = st.selectbox("Sono", ["Bom", "Regular", "Ruim/Insônia"])
+    agua = st.slider("Água (Litros/dia)", 0.0, 5.0, 2.0, 0.5)
 
-    # --- SEÇÃO 3: SAÚDE ---
-    st.markdown("### 3. SAÚDE CLÍNICA")
-    patologias = st.text_area("Doenças diagnosticadas (Diabetes, Pressão, Tireoide...)", placeholder="Digite 'Nenhuma' se não houver.")
-    medicamentos = st.text_input("Usa algum medicamento contínuo? Qual?")
-    intestino = st.selectbox("Funcionamento do Intestino", ["Diário (Normal)", "Preso (2-3 dias sem ir)", "Solto/Urgência", "Muitos gases/Estufamento"])
-    alergias = st.text_input("Alergias ou Intolerâncias (Glúten, Lactose, Camarão...)")
+    st.markdown("### 3. SAÚDE")
+    patologias = st.text_area("Doenças Diagnosticadas", placeholder="Digite 'Nenhuma' se não houver.")
+    medicamentos = st.text_input("Medicamentos Contínuos")
+    intestino = st.selectbox("Intestino", ["Diário", "Preso", "Solto", "Gases/Estufamento"])
+    alergias = st.text_input("Alergias Alimentares")
 
-    # --- SEÇÃO 4: ALIMENTAÇÃO ---
-    st.markdown("### 4. HÁBITOS ALIMENTARES")
-    quem_cozinha = st.selectbox("Quem prepara as refeições?", ["Eu mesmo", "Familiar/Cônjuge", "Restaurante/Marmita", "Funcionária"])
-    nao_gosta = st.text_input("O que você NÃO come de jeito nenhum?")
-    gosta_muito = st.text_input("O que você GOSTARIA de manter na dieta?")
+    st.markdown("### 4. ALIMENTAÇÃO")
+    quem_cozinha = st.selectbox("Preparo das Refeições", ["Eu mesmo", "Familiar", "Restaurante", "Funcionária"])
+    nao_gosta = st.text_input("Não come de jeito nenhum")
+    gosta_muito = st.text_input("Gostaria de manter na dieta")
     
     col_alim1, col_alim2 = st.columns(2)
     with col_alim1:
-        fome_horario = st.text_input("Horário de maior fome")
+        fome_horario = st.text_input("Maior fome às")
     with col_alim2:
-        doces = st.selectbox("Consumo de Doces", ["Baixo", "Moderado", "Alto/Vício"])
+        doces = st.selectbox("Doces", ["Pouco", "Moderado", "Muito"])
         
-    alcool = st.selectbox("Bebida Alcoólica", ["Não bebo", "Socialmente (Fim de semana)", "Frequente (3x+ na semana)"])
+    alcool = st.selectbox("Álcool", ["Não bebo", "Socialmente", "Frequente"])
 
-    # --- SEÇÃO 5: TREINO ---
-    st.markdown("### 5. ATIVIDADE FÍSICA")
+    st.markdown("### 5. TREINO")
     pratica_exercicio = st.radio("Pratica exercícios?", ["Sim", "Não"])
     
     tipo_treino = "Sedentário"
@@ -191,111 +202,95 @@ with st.form("anamnese_form"):
     if pratica_exercicio == "Sim":
         col_t1, col_t2 = st.columns(2)
         with col_t1:
-            tipo_treino = st.text_input("Modalidade (Musculação, Crossfit...)")
-            frequencia_treino = st.selectbox("Frequência", ["1-2x semana", "3-4x semana", "5-6x semana", "Todo dia"])
+            tipo_treino = st.text_input("Modalidade")
+            frequencia_treino = st.selectbox("Frequência", ["1-2x", "3-4x", "5-6x", "Todo dia"])
         with col_t2:
-            horario_treino = st.text_input("Horário do treino")
+            horario_treino = st.text_input("Horário")
             
-    suplementos = st.text_input("Suplementos atuais (Whey, Creatina...)")
+    suplementos = st.text_input("Suplementos (Whey, Creatina...)")
 
-    # --- SEÇÃO 6: HORMONAL (INTELIGENTE) ---
-    st.markdown("### 6. SAÚDE HORMONAL")
-    
+    st.markdown("### 6. HORMONAL")
     info_hormonal = ""
     if sexo == "Feminino":
         col_fem1, col_fem2 = st.columns(2)
         with col_fem1:
-            ciclo = st.selectbox("Ciclo Menstrual", ["Regular", "Irregular", "Menopausa", "Uso Contínuo (Sem menstruar)"])
-            tpm = st.selectbox("Sintomas de TPM", ["Leves/Nenhum", "Inchaço/Fome", "Irritabilidade/Choro"])
+            ciclo = st.selectbox("Ciclo Menstrual", ["Regular", "Irregular", "Menopausa", "Uso Contínuo"])
+            tpm = st.selectbox("TPM", ["Leve", "Média", "Forte"])
         with col_fem2:
-            anticoncepcional = st.text_input("Anticoncepcional (Qual?)")
+            anticoncepcional = st.text_input("Anticoncepcional")
         info_hormonal = f"Ciclo: {ciclo} | TPM: {tpm} | AC: {anticoncepcional}"
     else:
-        # Perfil Masculino
         col_masc1, col_masc2 = st.columns(2)
         with col_masc1:
-            disposicao = st.selectbox("Disposição / Libido", ["Normal/Alta", "Baixa/Cansaço constante"])
+            disposicao = st.selectbox("Disposição/Libido", ["Boa", "Baixa"])
         with col_masc2:
-            uso_hormonio = st.selectbox("Uso de Testosterona/Ergogênicos", ["Natural (Nunca usei)", "Em uso atual", "Já usei no passado"])
+            uso_hormonio = st.selectbox("Hormônios/Testo", ["Não uso", "Uso atualmente", "Já usei"])
         info_hormonal = f"Disposição: {disposicao} | Hormônios: {uso_hormonio}"
 
-    obs_finais = st.text_area("Observações Finais ou Dúvidas:")
+    obs_finais = st.text_area("Observações Finais")
 
-    st.write("") # Espaço
+    st.write("") 
     
-    # --- BOTÃO FINAL ---
-    submitted = st.form_submit_button("✅ FINALIZAR E ENVIAR FICHA")
+    # BOTÃO VERDE COM LETRA BRANCA FORÇADA
+    submitted = st.form_submit_button("FINALIZAR E ENVIAR 📲")
 
     if submitted:
         if not nome:
-            st.error("⚠️ Por favor, preencha seu Nome Completo no início.")
+            st.error("⚠️ Preencha seu nome.")
         else:
-            # Montagem da Mensagem do WhatsApp
+            # TEXTO DO WHATSAPP
             mensagem = f"""
-📋 *ANAMNESE NUTRICIONAL - CARLA SANTOS*
-----------------------------------
-👤 *PACIENTE:* {nome}
-📊 *DADOS:* {idade} anos | {peso}kg | {altura}cm
-🧬 *SEXO:* {sexo}
-🎯 *OBJETIVO:* {objetivo}
-----------------------------------
-⚙️ *ROTINA:*
-- Trabalho: {profissao}
-- Acorda: {horario_acorda} | Dorme: {horario_dorme}
-- Sono: {qualidade_sono}
-- Água: {agua}L
-----------------------------------
-🏥 *CLÍNICO:*
-- Patologias: {patologias}
-- Meds: {medicamentos}
-- Intestino: {intestino}
-- Alergias: {alergias}
-----------------------------------
-🥗 *ALIMENTAÇÃO:*
-- Preparo: {quem_cozinha}
-- Aversões: {nao_gosta}
-- Preferências: {gosta_muito}
-- Fome maior às: {fome_horario}
-- Doces: {doces}
-- Álcool: {alcool}
-----------------------------------
-💪 *TREINO:*
-- Pratica: {pratica_exercicio}
-- Detalhes: {tipo_treino} ({frequencia_treino}) às {horario_treino}
-- Suplementos: {suplementos}
-----------------------------------
-⚖️ *HORMONAL:*
-- {info_hormonal}
-----------------------------------
-📝 *OBSERVAÇÕES:* {obs_finais}
-----------------------------------
-✅ *Ficha enviada. Aguardo orientações!*
+📋 *ANAMNESE - CARLA SANTOS*
+👤 {nome} | {idade}a | {peso}kg | {altura}cm
+🎯 Obj: {objetivo}
+---------------------------
+⚙️ *ROTINA*
+💼 {profissao}
+⏰ Acorda: {horario_acorda} | Dorme: {horario_dorme}
+💤 Sono: {qualidade_sono} | 💧 {agua}L
+---------------------------
+🏥 *SAÚDE*
+💊 Meds: {medicamentos}
+🤢 Patol: {patologias}
+💩 Intestino: {intestino}
+🚫 Alergia: {alergias}
+---------------------------
+🥗 *DIETA*
+🍳 Preparo: {quem_cozinha}
+❌ Aversão: {nao_gosta}
+❤️ Pref: {gosta_muito}
+🕒 Fome: {fome_horario} | 🍬 Doces: {doces}
+🍺 Álcool: {alcool}
+---------------------------
+💪 *TREINO*
+🏋️ {tipo_treino} ({frequencia_treino}) às {horario_treino}
+⚡ Supl: {suplementos}
+---------------------------
+⚖️ *HORMONAL*
+{info_hormonal}
+---------------------------
+📝 {obs_finais}
 """
-            # Codifica a mensagem
             texto_codificado = urllib.parse.quote(mensagem)
             link_whatsapp = f"https://wa.me/{WHATSAPP_NUMERO}?text={texto_codificado}"
 
-            # Feedback Visual de Sucesso
-            st.success("✅ Ficha gerada com sucesso! Clique no botão abaixo para enviar.")
+            st.success("✅ Sucesso! Envie abaixo:")
             
-            # Botão de Redirecionamento
+            # Botão HTML Extra para garantir visualização
             st.markdown(f"""
                 <a href="{link_whatsapp}" target="_blank" style="text-decoration:none;">
                     <div style="
                         background-color: #25D366; 
                         color: white !important; 
-                        padding: 18px; 
-                        border-radius: 12px; 
+                        padding: 15px; 
+                        border-radius: 10px; 
                         text-align: center; 
                         font-weight: bold; 
-                        font-size: 20px; 
+                        font-size: 18px; 
                         margin-top: 10px;
-                        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
                         font-family: sans-serif;
                     ">
-                        <span style="color: white !important;">📲 ENVIAR AGORA PELO WHATSAPP</span>
+                        📲 ENVIAR NO WHATSAPP
                     </div>
                 </a>
             """, unsafe_allow_html=True)
-            
-            st.info("O WhatsApp abrirá automaticamente com suas respostas preenchidas.")
