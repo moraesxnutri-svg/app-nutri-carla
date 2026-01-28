@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. ESTILO VISUAL BLINDADO (V8 + MOBILE FIX)
+# 2. ESTILO VISUAL BLINDADO (CORRIGIDO PARA BOTÕES)
 # ==============================================================================
 st.markdown("""
     <style>
@@ -29,7 +29,7 @@ st.markdown("""
         color: #1a1a1a;
     }
     
-    /* Força cor do texto para preto/cinza escuro em tudo */
+    /* Força cor do texto para PRETO, EXCETO nos botões */
     h1, h2, h3, h4, h5, h6, p, li, div, span, label, .stMarkdown {
         color: #1a1a1a !important;
     }
@@ -55,7 +55,6 @@ st.markdown("""
         text-transform: uppercase;
     }
     
-    /* Aumenta letra dos rótulos para facilitar leitura no celular */
     label p {
         font-size: 18px !important;
         font-weight: 600 !important;
@@ -66,14 +65,13 @@ st.markdown("""
     .stNumberInput>div>div>input, 
     .stTextArea>div>div>textarea {
         background-color: #ffffff !important;
-        color: #000000 !important; /* Texto preto ao digitar */
+        color: #000000 !important;
         border: 1px solid #c2b280 !important;
         border-radius: 8px;
-        font-size: 18px !important; /* Letra grande */
-        padding: 15px !important; /* Espaço para o dedo */
+        font-size: 18px !important;
+        padding: 15px !important;
     }
     
-    /* --- 4. CAIXAS DE SELEÇÃO (SELECTBOX) --- */
     .stSelectbox>div>div>div {
         background-color: #ffffff !important;
         color: #000000 !important;
@@ -82,32 +80,33 @@ st.markdown("""
         font-size: 18px !important;
     }
 
-    /* --- 5. BOTÃO DE ENVIO (BIG BUTTON) --- */
+    /* --- 4. BOTÃO DE ENVIO DO FORMULÁRIO (FIX CORRIGIDO) --- */
+    /* Força a letra a ser BRANCA dentro do botão */
     .stButton>button {
-        background-color: #384d21 !important;
-        color: white !important;
+        background-color: #384d21 !important; /* Verde Fundo */
+        color: #ffffff !important; /* Letra Branca */
         border-radius: 12px;
         border: none;
-        height: 70px !important; /* Bem alto para clicar fácil */
+        height: 70px !important;
         font-size: 20px !important;
         font-weight: bold;
         width: 100%;
         margin-top: 25px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transition: 0.3s;
+    }
+    .stButton>button p {
+        color: #ffffff !important; /* Garante que o texto interno seja branco */
     }
     .stButton>button:hover {
         background-color: #2e3f1c !important;
         transform: scale(1.02);
     }
     
-    /* --- 6. AJUSTES FINAIS --- */
-    /* Remove menu do Streamlit para parecer um App nativo */
+    /* --- 5. AJUSTES FINAIS --- */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Margem para não cortar conteúdo no mobile */
     .block-container {
         padding-top: 2rem !important;
         padding-bottom: 5rem !important;
@@ -124,7 +123,7 @@ with col_logo2:
         st.image("logo_carla.png", use_container_width=True)
 
 st.title("FICHA DE ANAMNESE")
-st.markdown(f"<center><small style='font-size: 16px; color: #555;'>NUTRICIONISTA {NOME_NUTRI} | TRIAGEM INICIAL</small></center>", unsafe_allow_html=True)
+st.markdown(f"<center><small style='font-size: 16px; color: #555 !important;'>NUTRICIONISTA {NOME_NUTRI} | TRIAGEM INICIAL</small></center>", unsafe_allow_html=True)
 
 # ==============================================================================
 # 4. FORMULÁRIO INTELIGENTE
@@ -275,12 +274,12 @@ with st.form("anamnese_form"):
             # Feedback Visual de Sucesso
             st.success("✅ Ficha gerada com sucesso! Clique no botão abaixo para enviar.")
             
-            # Botão de Redirecionamento (Visual Verde Zap)
+            # Botão de Redirecionamento (Visual Verde Zap com Letra Branca Forçada)
             st.markdown(f"""
                 <a href="{link_whatsapp}" target="_blank" style="text-decoration:none;">
                     <div style="
                         background-color: #25D366; 
-                        color: white; 
+                        color: white !important; 
                         padding: 18px; 
                         border-radius: 12px; 
                         text-align: center; 
@@ -290,7 +289,7 @@ with st.form("anamnese_form"):
                         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
                         font-family: sans-serif;
                     ">
-                        📲 ENVIAR AGORA PELO WHATSAPP
+                        <span style="color: white !important;">📲 ENVIAR AGORA PELO WHATSAPP</span>
                     </div>
                 </a>
             """, unsafe_allow_html=True)
